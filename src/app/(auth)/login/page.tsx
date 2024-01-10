@@ -1,12 +1,20 @@
 "use client";
 
-import { TLoginSchema, LoginSchema } from "@/validations/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import FormError from "@/components/FormError";
+import { TLoginSchema, LoginSchema } from "@/validations/auth";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { login } from "@/actions/login";
+
 const Login = () => {
+  const [errorMsg, setErrorMsg] = useState("");
+  const [isPending, startTransition] = useTransition();
+
   const {
     register,
     handleSubmit,
@@ -17,8 +25,10 @@ const Login = () => {
   });
 
   const onSubmit = (data: TLoginSchema) => {
-    console.log(data);
-    reset();
+    setErrorMsg("");
+    startTransition(() => {
+      login(data).then((res) => res?.error && setErrorMsg(res.error));
+    });
   };
 
   return (
@@ -82,14 +92,15 @@ const Login = () => {
                   </a>
                 </div>
               </div>
-
+              {errorMsg && <FormError message={errorMsg} />}
               <div>
                 <button
                   disabled={isSubmitting}
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg- px-3 py-1.5 text-sm font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-indigo-500"
+                  className="flex w-full justify-center items-center gap-2 rounded-md bg- px-3 py-1.5 text-sm font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-secondary hover:text-white"
                 >
-                  Login
+                  {isPending && <LoadingSpinner textColor="text-white" />}
+                  Register
                 </button>
               </div>
             </form>

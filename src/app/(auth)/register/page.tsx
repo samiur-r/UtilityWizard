@@ -1,14 +1,22 @@
 "use client";
 
-import { RegisterSchema, TRegisterSchema } from "@/validations/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import FormError from "@/components/FormError";
+import { RegisterSchema, TRegisterSchema } from "@/validations/auth";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { register } from "@/actions/register";
+
 const Register = () => {
+  const [errorMsg, setErrorMsg] = useState("");
+  const [isPending, startTransition] = useTransition();
+
   const {
-    register,
+    register: registerField,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
@@ -17,10 +25,11 @@ const Register = () => {
   });
 
   const onSubmit = (data: TRegisterSchema) => {
-    console.log(data);
-    reset();
+    setErrorMsg("");
+    startTransition(() => {
+      register(data).then((res) => res?.error && setErrorMsg(res.error));
+    });
   };
-
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center py-8 px-5">
@@ -41,7 +50,7 @@ const Register = () => {
                 </label>
                 <div className="mt-2">
                   <input
-                    {...register("fullName")}
+                    {...registerField("fullName")}
                     id="fullName"
                     type="text"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -60,7 +69,7 @@ const Register = () => {
                 </label>
                 <div className="mt-2">
                   <input
-                    {...register("email")}
+                    {...registerField("email")}
                     id="email"
                     type="email"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -79,7 +88,7 @@ const Register = () => {
                 </label>
                 <div className="mt-2">
                   <input
-                    {...register("password")}
+                    {...registerField("password")}
                     id="password"
                     type="password"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -98,7 +107,7 @@ const Register = () => {
                 </label>
                 <div className="mt-2">
                   <input
-                    {...register("confirmPassword")}
+                    {...registerField("confirmPassword")}
                     id="confirmPassword"
                     type="password"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -108,12 +117,14 @@ const Register = () => {
                   <p className="text-red-500 text-xs mt-2">{`${errors.confirmPassword.message}`}</p>
                 )}
               </div>
+              {errorMsg && <FormError message={errorMsg} />}
               <div>
                 <button
                   disabled={isSubmitting}
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg- px-3 py-1.5 text-sm font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-secondary hover:text-white"
+                  className="flex w-full justify-center items-center gap-2 rounded-md bg- px-3 py-1.5 text-sm font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-secondary hover:text-white"
                 >
+                  {isPending && <LoadingSpinner textColor="text-white" />}
                   Register
                 </button>
               </div>
