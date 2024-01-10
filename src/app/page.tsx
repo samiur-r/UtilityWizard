@@ -1,7 +1,12 @@
+import Header from "@/components/Header";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      Code Flight
-    </main>
-  )
+    <section>
+      <Header />
+      <div className="container mx-auto p-5">
+        <p className="text-2xl text-center">Landing page</p>
+      </div>
+    </section>
+  );
 }
