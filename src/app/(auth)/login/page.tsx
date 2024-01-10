@@ -1,10 +1,29 @@
+"use client";
+
+import { TLoginSchema, LoginSchema } from "@/validations/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<TLoginSchema>({
+    resolver: zodResolver(LoginSchema),
+  });
+
+  const onSubmit = (data: TLoginSchema) => {
+    console.log(data);
+    reset();
+  };
+
   return (
     <>
-      <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="flex min-h-full flex-1 flex-col justify-center py-8 spx-5">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-secondary">
             Sign in to your account
@@ -12,7 +31,7 @@ const Login = () => {
         </div>
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-            <form className="space-y-6" action="#" method="POST">
+            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <label
                   htmlFor="email"
@@ -22,14 +41,15 @@ const Login = () => {
                 </label>
                 <div className="mt-2">
                   <input
+                    {...register("email")}
                     id="email"
-                    name="email"
                     type="email"
-                    autoComplete="email"
-                    required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
+                {errors.email && (
+                  <p className="text-red-500 text-xs mt-2">{`${errors.email.message}`}</p>
+                )}
               </div>
 
               <div>
@@ -41,14 +61,15 @@ const Login = () => {
                 </label>
                 <div className="mt-2">
                   <input
+                    {...register("password")}
                     id="password"
-                    name="password"
                     type="password"
-                    autoComplete="current-password"
-                    required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
+                {errors.password && (
+                  <p className="text-red-500 text-xs mt-2">{`${errors.password.message}`}</p>
+                )}
               </div>
 
               <div className="flex items-center justify-end">
@@ -64,6 +85,7 @@ const Login = () => {
 
               <div>
                 <button
+                  disabled={isSubmitting}
                   type="submit"
                   className="flex w-full justify-center rounded-md bg- px-3 py-1.5 text-sm font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-indigo-500"
                 >
