@@ -9,6 +9,8 @@ import {
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
+import { signOut } from "@/auth";
+import { logout } from "@/actions/logout";
 
 // const navigation = [
 //   { name: "Product", href: "#" },
@@ -17,7 +19,17 @@ import Link from "next/link";
 //   { name: "Company", href: "#" },
 // ];
 
-const Header = () => {
+interface NavigationType {
+  id: number;
+  name: string;
+  href: string;
+}
+
+interface HeaderProps {
+  navigation: NavigationType[];
+}
+
+const Header: React.FC<HeaderProps> = ({ navigation }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -40,22 +52,24 @@ const Header = () => {
             <Bars3Icon className="h-8 w-8" aria-hidden="true" />
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
-          {/* {navigation.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              {item.name}
-            </a>
-          ))} */}
-          <Link
-            href="/register"
-            className="text-sm font-semibold leading-6 text-primary flex gap-2 items-center"
-          >
-            Get Started <ArrowRightIcon className="h-3 w-3" />
-          </Link>
+        <div className="hidden lg:flex lg:gap-x-5">
+          {navigation.map((item) =>
+            item.name === "Logout" ? (
+              <form key={item.id} action={logout}>
+                <button className="text-sm font-semibold leading-6 text-primary flex gap-2 items-center">
+                  {item.name}
+                </button>
+              </form>
+            ) : (
+              <Link
+                key={item.id}
+                href={item.href}
+                className="text-sm font-semibold leading-6 text-primary flex gap-2 items-center"
+              >
+                {item.name}
+              </Link>
+            )
+          )}
         </div>
       </nav>
       <Dialog
@@ -82,22 +96,16 @@ const Header = () => {
           </div>
           <div className="mt-6 flow-root">
             <hr className="border-b border-primary" />
-            <div className="space-y-2 py-6">
-              {/* {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    {item.name}
-                  </a>
-                ))} */}
-              <Link
-                href="/register"
-                className="text-sm font-semibold leading-6 text-white flex gap-2 items-center"
-              >
-                Get Started <ArrowRightIcon className="h-3 w-3" />
-              </Link>
+            <div className="flex flex-col gap-2 mt-5">
+              {navigation.map((item) => (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  className="text-sm font-semibold leading-6 text-primary flex gap-2 items-center"
+                >
+                  {item.name}
+                </Link>
+              ))}
             </div>
           </div>
         </Dialog.Panel>

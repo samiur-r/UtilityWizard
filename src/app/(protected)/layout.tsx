@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 
-const navigation = [{ id: 1, name: "Get Started", href: "/login" }];
+const navigation = [{ id: 1, name: "Logout", href: "/logout" }];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

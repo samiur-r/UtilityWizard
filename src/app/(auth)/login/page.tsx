@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +16,8 @@ const Login = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [isPending, startTransition] = useTransition();
 
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -27,7 +30,12 @@ const Login = () => {
   const onSubmit = (data: TLoginSchema) => {
     setErrorMsg("");
     startTransition(() => {
-      login(data).then((res) => res?.error && setErrorMsg(res.error));
+      login(data)
+        .then((res) => {
+          if (res?.error) setErrorMsg(res.error);
+          else router.push("/dashboard");
+        })
+        .catch((error) => console.log(error));
     });
   };
 
@@ -100,7 +108,7 @@ const Login = () => {
                   className="flex w-full justify-center items-center gap-2 rounded-md bg- px-3 py-1.5 text-sm font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-secondary hover:text-white"
                 >
                   {isPending && <LoadingSpinner textColor="text-white" />}
-                  Register
+                  Login
                 </button>
               </div>
             </form>
