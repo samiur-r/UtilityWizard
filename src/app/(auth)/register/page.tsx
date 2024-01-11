@@ -5,12 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { signIn } from "next-auth/react";
 
 import FormError from "@/components/FormError";
 import { RegisterSchema, TRegisterSchema } from "@/validations/auth";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { register } from "@/actions/register";
 import Toast from "@/components/Toast";
+import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 
 const Register = () => {
   const [errorMsg, setErrorMsg] = useState("");
@@ -20,6 +22,10 @@ const Register = () => {
     isToastError: false,
     toastMessage: "",
   });
+
+  const handleSocialRegister = (provider: string) => {
+    signIn(provider, { callbackUrl: DEFAULT_LOGIN_REDIRECT });
+  };
 
   const {
     register: registerField,
@@ -174,8 +180,8 @@ const Register = () => {
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-4">
-                <a
-                  href="#"
+                <button
+                  onClick={() => handleSocialRegister("google")}
                   className="flex w-full items-center justify-center gap-3 rounded-md bg-[#C71610] px-3 py-1.5 text-[#fff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C71610]"
                 >
                   <Image
@@ -185,10 +191,10 @@ const Register = () => {
                     alt="gmail-ico"
                   />
                   <span className="text-sm font-semibold leading-6">Gmail</span>
-                </a>
+                </button>
 
-                <a
-                  href="#"
+                <button
+                  onClick={() => handleSocialRegister("github")}
                   className="flex w-full items-center justify-center gap-3 rounded-md bg-[#24292F] px-3 py-1.5 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
                 >
                   <svg
@@ -206,7 +212,7 @@ const Register = () => {
                   <span className="text-sm font-semibold leading-6">
                     GitHub
                   </span>
-                </a>
+                </button>
               </div>
             </div>
           </div>
