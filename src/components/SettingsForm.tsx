@@ -1,16 +1,23 @@
 "use client";
 
 import { changeName } from "@/actions/change-name";
-import { NameSchema, TNameSchema } from "@/validations/auth";
+import {
+  NameSchema,
+  TNameSchema,
+  TNewPasswordSchema,
+  NewPasswordSchema,
+} from "@/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import LoadingSpinner from "./LoadingSpinner";
 import Toast from "@/components/Toast";
+import { newPassword } from "@/actions/new-password";
 
 const SettingsForm = ({ session }: { session: any }) => {
   const [showPasswordResetForm, setShowPasswordResetForm] = useState(false);
   const [isPendingName, startTransitionName] = useTransition();
+  const [isPendingPassword, startTransitionPassword] = useTransition();
   const [toastOpts, setToastOpts] = useState({
     showToast: false,
     isToastError: false,
@@ -23,6 +30,14 @@ const SettingsForm = ({ session }: { session: any }) => {
     formState: { errors: errorsName, isSubmitting: isSubmittingName },
   } = useForm<TNameSchema>({
     resolver: zodResolver(NameSchema),
+  });
+
+  const {
+    register: registerChangePasswordField,
+    handleSubmit: handleChangePasswordSubmit,
+    formState: { errors: errorsPassword, isSubmitting: isSubmittingPassword },
+  } = useForm<TNewPasswordSchema>({
+    resolver: zodResolver(NewPasswordSchema),
   });
 
   const handleChangeName = (values: { name: string }) => {
@@ -42,6 +57,33 @@ const SettingsForm = ({ session }: { session: any }) => {
               toastMessage: res.success,
             });
           }
+        })
+        .catch((error) => console.log(error));
+    });
+  };
+
+  const handleChangePassword = (values: {
+    oldPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
+  }) => {
+    startTransitionPassword(() => {
+      newPassword(values)
+        .then((res) => {
+          if (res.error)
+            setToastOpts({
+              showToast: true,
+              isToastError: true,
+              toastMessage: res.error,
+            });
+          else if (res.success) {
+            setToastOpts({
+              showToast: true,
+              isToastError: false,
+              toastMessage: res.success,
+            });
+          }
+          setShowPasswordResetForm(false);
         })
         .catch((error) => console.log(error));
     });
@@ -149,7 +191,10 @@ const SettingsForm = ({ session }: { session: any }) => {
           </div>
         </div>
         {showPasswordResetForm && (
-          <form className="space-y-6">
+          <form
+            className="space-y-6"
+            onSubmit={handleChangePasswordSubmit(handleChangePassword)}
+          >
             <div>
               <label
                 htmlFor="oldPassword"
@@ -159,14 +204,15 @@ const SettingsForm = ({ session }: { session: any }) => {
               </label>
               <div className="mt-2">
                 <input
+                  {...registerChangePasswordField("oldPassword")}
                   id="oldPassword"
-                  name="oldPassword"
                   type="password"
-                  autoComplete="oldPassword"
-                  required
                   className="block px-2 w-full rounded-md border py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6"
                 />
               </div>
+              {errorsPassword.oldPassword && (
+                <p className="text-red-500 text-xs mt-2">{`${errorsPassword.oldPassword.message}`}</p>
+              )}
             </div>
             <div>
               <label
@@ -177,13 +223,14 @@ const SettingsForm = ({ session }: { session: any }) => {
               </label>
               <div className="mt-2">
                 <input
+                  {...registerChangePasswordField("newPassword")}
                   id="newPassword"
-                  name="newPassword"
                   type="password"
-                  autoComplete="newPassword"
-                  required
                   className="block px-2 w-full rounded-md border py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6"
                 />
+                {errorsPassword.newPassword && (
+                  <p className="text-red-500 text-xs mt-2">{`${errorsPassword.newPassword.message}`}</p>
+                )}
               </div>
             </div>
             <div>
@@ -195,19 +242,23 @@ const SettingsForm = ({ session }: { session: any }) => {
               </label>
               <div className="mt-2">
                 <input
+                  {...registerChangePasswordField("confirmNewPassword")}
                   id="confirmNewPassword"
-                  name="confirmNewPassword"
                   type="password"
-                  autoComplete="confirmNewPassword"
-                  required
                   className="block px-2 w-full rounded-md border py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6"
                 />
+                {errorsPassword.confirmNewPassword && (
+                  <p className="text-red-500 text-xs mt-2">{`${errorsPassword.confirmNewPassword.message}`}</p>
+                )}
               </div>
             </div>
             <button
               type="submit"
               className="flex w-full justify-center items-center gap-2 rounded-md px-3 py-1.5 text-xs font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-secondary hover:text-white"
             >
+              {isPendingPassword && (
+                <LoadingSpinner style="text-white  w-5 h-5" />
+              )}
               Update Password
             </button>
           </form>

@@ -16,10 +16,10 @@ export const register = async (values: TRegisterSchema) => {
 
     const { name, email, password } = validation.data;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
     const userExists = await getUserByEmail(email);
-
     if (userExists) throw new Error("Email already in use!");
+
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     await db.user.create({
       data: {

@@ -11,7 +11,6 @@ export const changeName = async (values: TNameSchema) => {
   if (!user) return { error: "Unauthorized!" };
 
   const dbUser = await getUserById(user.id);
-
   if (!dbUser) return { error: "Unauthorized" };
 
   const validatedFields = NameSchema.safeParse(values);
