@@ -1,11 +1,68 @@
 "use client";
 
-import { useState } from "react";
+import { changeName } from "@/actions/change-name";
+import { NameSchema, TNameSchema } from "@/validations/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import LoadingSpinner from "./LoadingSpinner";
+import Toast from "@/components/Toast";
 
 const SettingsForm = ({ session }: { session: any }) => {
   const [showPasswordResetForm, setShowPasswordResetForm] = useState(false);
+  const [isPendingName, startTransitionName] = useTransition();
+  const [toastOpts, setToastOpts] = useState({
+    showToast: false,
+    isToastError: false,
+    toastMessage: "",
+  });
+
+  const {
+    register: registerChangeNameField,
+    handleSubmit: handleChangeNameSubmit,
+    formState: { errors: errorsName, isSubmitting: isSubmittingName },
+  } = useForm<TNameSchema>({
+    resolver: zodResolver(NameSchema),
+  });
+
+  const handleChangeName = (values: { name: string }) => {
+    startTransitionName(() => {
+      changeName(values)
+        .then((res) => {
+          if (res.error)
+            setToastOpts({
+              showToast: true,
+              isToastError: true,
+              toastMessage: res.error,
+            });
+          else if (res.success) {
+            setToastOpts({
+              showToast: true,
+              isToastError: false,
+              toastMessage: res.success,
+            });
+          }
+        })
+        .catch((error) => console.log(error));
+    });
+  };
+
+  const resetToastValues = () => {
+    setToastOpts({
+      showToast: false,
+      isToastError: false,
+      toastMessage: "",
+    });
+  };
+
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex min-h-full flex-1 flex-col justify-center px-8">
+      <Toast
+        showToast={toastOpts.showToast}
+        isToastError={toastOpts.isToastError}
+        toastMessage={toastOpts.toastMessage}
+        reset={resetToastValues}
+      />
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Settings
@@ -31,7 +88,7 @@ const SettingsForm = ({ session }: { session: any }) => {
             />
           </div>
         </div>
-        <form>
+        <form onSubmit={handleChangeNameSubmit(handleChangeName)}>
           <div>
             <label
               htmlFor="name"
@@ -39,23 +96,28 @@ const SettingsForm = ({ session }: { session: any }) => {
             >
               Name
             </label>
-            <div className="mt-2 grid grid-cols-3 gap-5">
+            <div className="mt-2 grid md:grid-cols-3 gap-5">
               <input
+                {...registerChangeNameField("name")}
                 id="name"
-                name="name"
                 type="text"
-                autoComplete="name"
-                required
                 defaultValue={session?.user?.name ?? ""}
                 className="col-span-2 block px-2 w-full rounded-md border py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6"
               />
               <button
                 type="submit"
+                disabled={isSubmittingName}
                 className="col-span-1 flex w-full justify-center items-center gap-2 rounded-md bg- px-3 py-1.5 text-xs font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-secondary hover:text-white"
               >
+                {isPendingName && (
+                  <LoadingSpinner style="text-white  w-5 h-5" />
+                )}
                 Change Name
               </button>
             </div>
+            {errorsName.name && (
+              <p className="text-red-500 text-xs mt-2">{`${errorsName.name.message}`}</p>
+            )}
           </div>
         </form>
         <div>
@@ -65,14 +127,14 @@ const SettingsForm = ({ session }: { session: any }) => {
           >
             Password
           </label>
-          <div className="mt-2 grid grid-cols-3 gap-5">
+          <div className="mt-2 grid md:grid-cols-3 gap-5">
             <input
               id="password"
               name="password"
               type="password"
               autoComplete="password"
               disabled
-              defaultValue={"******"}
+              defaultValue={"**********"}
               className="col-span-2 block px-2 w-full rounded-md border py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6"
             />
             {!showPasswordResetForm && (

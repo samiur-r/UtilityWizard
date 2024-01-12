@@ -11,7 +11,6 @@ import FormError from "@/components/FormFeedback";
 import { RegisterSchema, TRegisterSchema } from "@/validations/auth";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { register } from "@/actions/register";
-import Toast from "@/components/Toast";
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 
 const Register = () => {
@@ -19,11 +18,6 @@ const Register = () => {
   const [successMsg, setSuccessMsg] = useState("");
 
   const [isPending, startTransition] = useTransition();
-  const [toastOpts, setToastOpts] = useState({
-    showToast: false,
-    isToastError: false,
-    toastMessage: "",
-  });
 
   const handleSocialRegister = (provider: string) => {
     signIn(provider, { callbackUrl: DEFAULT_LOGIN_REDIRECT });
@@ -51,22 +45,8 @@ const Register = () => {
     });
   };
 
-  const resetToastValues = () => {
-    setToastOpts({
-      showToast: false,
-      isToastError: false,
-      toastMessage: "",
-    });
-  };
-
   return (
     <>
-      <Toast
-        showToast={toastOpts.showToast}
-        isToastError={toastOpts.isToastError}
-        toastMessage={toastOpts.toastMessage}
-        reset={resetToastValues}
-      />
       <div className="flex min-h-full flex-1 flex-col justify-center py-8 px-5">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-secondary">

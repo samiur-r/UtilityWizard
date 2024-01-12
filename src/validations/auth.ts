@@ -31,7 +31,12 @@ export const ForgotPasswordSchema = z.object({
   email: z.string().email(),
 });
 
+export const NameSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+});
+
 export type TRegisterSchema = z.infer<typeof RegisterSchema>;
 export type TLoginSchema = z.infer<typeof LoginSchema>;
 export type TResetPasswordSchema = z.infer<typeof ResetPasswordSchema>;
 export type TForgotPasswordSchema = z.infer<typeof ForgotPasswordSchema>;
+export type TNameSchema = z.infer<typeof NameSchema>;
