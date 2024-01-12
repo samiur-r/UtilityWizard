@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 
 const Dashboard = async () => {
   const session = await auth();
-  return <div>{JSON.stringify(session)}</div>;
+  return <section className="container mx-auto px-5">Dashboard</section>;
 };
 
 export default Dashboard;

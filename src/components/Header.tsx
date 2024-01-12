@@ -2,22 +2,11 @@
 
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
-import {
-  Bars3Icon,
-  XMarkIcon,
-  ArrowRightIcon,
-} from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
-import { signOut } from "@/auth";
 import { logout } from "@/actions/logout";
-
-// const navigation = [
-//   { name: "Product", href: "#" },
-//   { name: "Features", href: "#" },
-//   { name: "Marketplace", href: "#" },
-//   { name: "Company", href: "#" },
-// ];
+import { usePathname } from "next/navigation";
 
 interface NavigationType {
   id: number;
@@ -30,6 +19,8 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ navigation }) => {
+  const pathname = usePathname();
+  const isActiveNavItem = (href: string) => pathname === href;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -56,7 +47,7 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
           {navigation.map((item) =>
             item.name === "Logout" ? (
               <form key={item.id} action={logout}>
-                <button className="text-sm font-semibold leading-6 text-primary flex gap-2 items-center">
+                <button className="text-sm font-semibold leading-6 text-primary flex gap-2 items-center p-2">
                   {item.name}
                 </button>
               </form>
@@ -64,7 +55,11 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
               <Link
                 key={item.id}
                 href={item.href}
-                className="text-sm font-semibold leading-6 text-primary flex gap-2 items-center"
+                className={`text-sm font-semibold leading-6 flex gap-2 items-center p-2 ${
+                  isActiveNavItem(item.href)
+                    ? "bg-primary text-gray-900 rounded-md"
+                    : "text-primary"
+                }`}
               >
                 {item.name}
               </Link>
@@ -98,13 +93,17 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
             <hr className="border-b border-primary" />
             <div className="flex flex-col gap-2 mt-5">
               {navigation.map((item) => (
-                <Link
+                <a
                   key={item.id}
                   href={item.href}
-                  className="text-sm font-semibold leading-6 text-primary flex gap-2 items-center"
+                  className={`text-sm font-semibold leading-6 flex gap-2 items-center p-2 ${
+                    isActiveNavItem(item.href)
+                      ? "bg-primary text-gray-900 rounded-md"
+                      : "text-primary"
+                  }`}
                 >
                   {item.name}
-                </Link>
+                </a>
               ))}
             </div>
           </div>
