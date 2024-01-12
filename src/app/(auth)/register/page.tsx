@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 
-import FormError from "@/components/FormError";
+import FormError from "@/components/FormFeedback";
 import { RegisterSchema, TRegisterSchema } from "@/validations/auth";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { register } from "@/actions/register";
@@ -16,6 +16,8 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 
 const Register = () => {
   const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+
   const [isPending, startTransition] = useTransition();
   const [toastOpts, setToastOpts] = useState({
     showToast: false,
@@ -38,16 +40,14 @@ const Register = () => {
 
   const onSubmit = (data: TRegisterSchema) => {
     setErrorMsg("");
+    setSuccessMsg("");
     startTransition(() => {
-      register(data).then((res) =>
-        res?.error
-          ? setErrorMsg(res.error)
-          : setToastOpts({
-              showToast: true,
-              isToastError: false,
-              toastMessage: res.success ?? "",
-            })
-      );
+      register(data)
+        .then((res) => {
+          if (res?.error) setErrorMsg(res.error);
+          else if (res?.success) setSuccessMsg(res.success);
+        })
+        .catch((error) => console.log(error));
     });
   };
 
@@ -152,14 +152,15 @@ const Register = () => {
                   <p className="text-red-500 text-xs mt-2">{`${errors.confirmPassword.message}`}</p>
                 )}
               </div>
-              {errorMsg && <FormError message={errorMsg} />}
+              {errorMsg && <FormError message={errorMsg} type="error" />}
+              {successMsg && <FormError message={successMsg} type="success" />}
               <div>
                 <button
                   disabled={isSubmitting}
                   type="submit"
                   className="flex w-full justify-center items-center gap-2 rounded-md bg- px-3 py-1.5 text-sm font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-secondary hover:text-white"
                 >
-                  {isPending && <LoadingSpinner textColor="text-white" />}
+                  {isPending && <LoadingSpinner style="text-white  w-5 h-5" />}
                   Register
                 </button>
               </div>

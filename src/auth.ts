@@ -12,9 +12,9 @@ export const {
   signOut,
 } = NextAuth({
   pages: {
-    signIn: '/login',
-    error: '/auth-error'
-  }, 
+    signIn: "/login",
+    error: "/auth-error",
+  },
   events: {
     async linkAccount({ user }) {
       await db.user.update({
@@ -26,12 +26,14 @@ export const {
     },
   },
   callbacks: {
-    // async signIn({ user }) {
-    //   const existingUser = await getUserById(user.id);
-    //   if (!existingUser || !existingUser.emailVerified) return false;
+    async signIn({ user, account }) {
+      if (account?.provider !== "credentials") return true;
 
-    //   return true;
-    // },
+      const existingUser = await getUserById(user.id);
+      if (!existingUser?.emailVerified) return false;
+
+      return true;
+    },
     async session({ token, session }) {
       if (token.sub && session.user) session.user.id = token.sub;
       if (token.role && session.user) (session.user as any).role = token.role;

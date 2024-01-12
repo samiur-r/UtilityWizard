@@ -7,7 +7,7 @@ import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import FormError from "@/components/FormError";
+import FormError from "@/components/FormFeedback";
 import { TLoginSchema, LoginSchema } from "@/validations/auth";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { login } from "@/actions/login";
@@ -18,6 +18,8 @@ const Login = () => {
   const router = useRouter();
 
   const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+
   const [isPending, startTransition] = useTransition();
 
   const handleSocialLogin = (provider: string) => {
@@ -35,11 +37,13 @@ const Login = () => {
 
   const onSubmit = (data: TLoginSchema) => {
     setErrorMsg("");
+    setSuccessMsg("");
     startTransition(() => {
       login(data)
         .then((res) => {
           if (res?.error) setErrorMsg(res.error);
-          else router.push("/dashboard");
+          else if (res?.success) setSuccessMsg(res.success);
+          else if (res?.redirect) router.push("/dashboard");
         })
         .catch((error) => console.log(error));
     });
@@ -106,14 +110,17 @@ const Login = () => {
                   </a>
                 </div>
               </div>
-              {errorMsg && <FormError message={errorMsg} />}
+              {errorMsg && <FormError message={errorMsg} type="error" />}
+              {successMsg && <FormError message={successMsg} type="success" />}
               <div>
                 <button
                   disabled={isSubmitting}
                   type="submit"
                   className="flex w-full justify-center items-center gap-2 rounded-md bg- px-3 py-1.5 text-sm font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-secondary hover:text-white"
                 >
-                  {isPending && <LoadingSpinner textColor="text-white" />}
+                  {isPending && (
+                    <LoadingSpinner style="text-white  w-5 h-5" />
+                  )}
                   Login
                 </button>
               </div>

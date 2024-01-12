@@ -5,6 +5,8 @@ import bcrypt from "bcryptjs";
 import { RegisterSchema, TRegisterSchema } from "@/validations/auth";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/services/user";
+import { generateVerificationToken } from "@/utils/token";
+import { sendVerificationEmail } from "@/utils/mail";
 
 export const register = async (values: TRegisterSchema) => {
   try {
@@ -19,7 +21,7 @@ export const register = async (values: TRegisterSchema) => {
 
     if (userExists) throw new Error("Email already in use!");
 
-    const user = await db.user.create({
+    await db.user.create({
       data: {
         name,
         email,
@@ -27,9 +29,14 @@ export const register = async (values: TRegisterSchema) => {
       },
     });
 
-    // TODO: send verification email
+    const verificationToken = await generateVerificationToken(email);
 
-    return { success: "User created" };
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
+    );
+
+    return { success: "Confirmation email sent! please verify your email." };
   } catch (error: any) {
     console.log(error);
     return { error: error.message };
