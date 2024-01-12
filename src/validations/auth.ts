@@ -17,5 +17,21 @@ export const RegisterSchema = z
     path: ["confirmPassword"],
   });
 
+export const ResetPasswordSchema = z
+  .object({
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords must match",
+    path: ["confirmPassword"],
+  });
+
+export const ForgotPasswordSchema = z.object({
+  email: z.string().email(),
+});
+
 export type TRegisterSchema = z.infer<typeof RegisterSchema>;
 export type TLoginSchema = z.infer<typeof LoginSchema>;
+export type TResetPasswordSchema = z.infer<typeof ResetPasswordSchema>;
+export type TForgotPasswordSchema = z.infer<typeof ForgotPasswordSchema>;

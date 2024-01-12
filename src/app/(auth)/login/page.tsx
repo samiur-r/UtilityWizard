@@ -102,12 +102,12 @@ const Login = () => {
 
               <div className="flex items-center justify-end">
                 <div className="text-sm leading-6">
-                  <a
-                    href="#"
+                  <Link
+                    href="/forgot-password"
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
               </div>
               {errorMsg && <FormError message={errorMsg} type="error" />}
@@ -118,9 +118,7 @@ const Login = () => {
                   type="submit"
                   className="flex w-full justify-center items-center gap-2 rounded-md bg- px-3 py-1.5 text-sm font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-secondary hover:text-white"
                 >
-                  {isPending && (
-                    <LoadingSpinner style="text-white  w-5 h-5" />
-                  )}
+                  {isPending && <LoadingSpinner style="text-white  w-5 h-5" />}
                   Login
                 </button>
               </div>

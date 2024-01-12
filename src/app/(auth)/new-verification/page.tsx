@@ -1,4 +1,4 @@
-import { newVerification } from "@/actions/newVerification";
+import { newVerification } from "@/actions/new-verification";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Link from "next/link";
 
@@ -8,7 +8,6 @@ const NewVerification = async ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const token = searchParams.token;
-
   const result = await newVerification(token as string);
 
   return (
