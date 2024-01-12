@@ -27,5 +27,5 @@ export const forgotPassword = async (values: z.infer<typeof ForgotPasswordSchema
       passwordResetToken.token
     );
 
-  return { success: "Reset email sent!" };
+  return { success: "Password reset email sent!" };
 };
