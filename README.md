@@ -17,13 +17,20 @@ cd Code-Flight
 yarn install
 ```
 
-3. Copy the env.example file to .env::
+3. Copy the env.example file to .env:
 
 ```bash
  cp .env.example .env
 ```
 
-4. Start the development server:
+4. Database Migration:
+
+```bash
+ npx prisma generate
+ npx prisma db push
+```
+
+5. Start the development server:
 
 ```bash
 yarn run dev
