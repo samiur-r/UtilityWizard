@@ -3,13 +3,12 @@
 import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import Link from "next/link";
 
 import FormError from "@/components/FormFeedback";
 import { TResetPasswordSchema, ResetPasswordSchema } from "@/validations/auth";
 import LoadingSpinner from "@/components/LoadingSpinner";
-
 import { resetPassword } from "@/actions/reset-password";
-import Link from "next/link";
 
 const PasswordResetForm = ({ token }: { token: string }) => {
   const [errorMsg, setErrorMsg] = useState("");

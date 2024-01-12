@@ -1,5 +1,4 @@
 import Header from "@/components/Header";
-import { auth } from "@/auth";
 import { loggedInUser } from "@/utils/user";
 
 export default async function Home() {

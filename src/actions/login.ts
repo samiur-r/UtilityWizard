@@ -1,12 +1,12 @@
 "use server";
 
+import { AuthError } from "next-auth";
+
 import { signIn } from "@/auth";
-import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 import { getUserByEmail } from "@/services/user";
 import { sendVerificationEmail } from "@/utils/mail";
 import { generateVerificationToken } from "@/utils/token";
 import { TLoginSchema, LoginSchema } from "@/validations/auth";
-import { AuthError } from "next-auth";
 
 export const login = async (values: TLoginSchema) => {
   const validation = LoginSchema.safeParse(values);

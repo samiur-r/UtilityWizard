@@ -1,10 +1,11 @@
 "use server";
 
+import bcrypt from "bcryptjs";
+
 import { db } from "@/lib/db";
 import { getUserById } from "@/services/user";
 import { loggedInUser } from "@/utils/user";
 import { NewPasswordSchema, TNewPasswordSchema } from "@/validations/auth";
-import bcrypt from "bcryptjs";
 
 export const newPassword = async (values: TNewPasswordSchema) => {
   const user = await loggedInUser();

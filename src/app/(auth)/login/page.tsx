@@ -6,12 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { signIn } from "next-auth/react";
 
 import FormError from "@/components/FormFeedback";
 import { TLoginSchema, LoginSchema } from "@/validations/auth";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { login } from "@/actions/login";
-import { signIn } from "next-auth/react";
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 
 const Login = () => {

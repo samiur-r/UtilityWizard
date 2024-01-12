@@ -1,5 +1,9 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+
 import { changeName } from "@/actions/change-name";
 import {
   NameSchema,
@@ -7,9 +11,6 @@ import {
   TNewPasswordSchema,
   NewPasswordSchema,
 } from "@/validations/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
 import LoadingSpinner from "./LoadingSpinner";
 import Toast from "@/components/Toast";
 import { newPassword } from "@/actions/new-password";

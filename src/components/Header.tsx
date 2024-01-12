@@ -5,8 +5,9 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
-import { logout } from "@/actions/logout";
 import { usePathname } from "next/navigation";
+
+import { logout } from "@/actions/logout";
 
 interface NavigationType {
   id: number;

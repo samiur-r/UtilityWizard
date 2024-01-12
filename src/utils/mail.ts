@@ -1,5 +1,6 @@
-import config from "@/config";
 import { Resend } from "resend";
+
+import config from "@/config";
 
 const resend = new Resend(`${config.resendApiKey}`);
 const domain = config.appUrl;
