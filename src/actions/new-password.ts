@@ -12,7 +12,9 @@ export const newPassword = async (values: TNewPasswordSchema) => {
   if (!user) return { error: "Unauthorized!" };
 
   const dbUser = await getUserById(user.id);
-  if (!dbUser || !dbUser.password) return { error: "Unauthorized" };
+  if (!dbUser) return { error: "Unauthorized" };
+
+  if (!dbUser.password) return { error: "You can not update password" };
 
   const validatedFields = NewPasswordSchema.safeParse(values);
   if (!validatedFields.success) return { error: "Invalid fields!" };

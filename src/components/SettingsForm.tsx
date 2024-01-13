@@ -163,34 +163,38 @@ const SettingsForm = ({ session }: { session: any }) => {
             )}
           </div>
         </form>
-        <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium leading-6 text-gray-900"
-          >
-            Password
-          </label>
-          <div className="mt-2 grid md:grid-cols-3 gap-5">
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="password"
-              disabled
-              defaultValue={"**********"}
-              className="col-span-2 block px-2 w-full rounded-md border py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6"
-            />
-            {!showPasswordResetForm && (
-              <button
-                onClick={() => setShowPasswordResetForm(!showPasswordResetForm)}
-                type="submit"
-                className="col-span-1 flex w-full justify-center items-center gap-2 rounded-md px-3 py-1.5 text-xs font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-secondary hover:text-white"
-              >
-                Change Password
-              </button>
-            )}
+        {!session?.user?.isOAuth && (
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              Password
+            </label>
+            <div className="mt-2 grid md:grid-cols-3 gap-5">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="password"
+                disabled
+                defaultValue={"**********"}
+                className="col-span-2 block px-2 w-full rounded-md border py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6"
+              />
+              {!showPasswordResetForm && (
+                <button
+                  onClick={() =>
+                    setShowPasswordResetForm(!showPasswordResetForm)
+                  }
+                  type="submit"
+                  className="col-span-1 flex w-full justify-center items-center gap-2 rounded-md px-3 py-1.5 text-xs font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-secondary hover:text-white"
+                >
+                  Change Password
+                </button>
+              )}
+            </div>
           </div>
-        </div>
+        )}
         {showPasswordResetForm && (
           <form
             className="space-y-6"
