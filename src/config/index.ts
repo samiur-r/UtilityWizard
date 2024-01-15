@@ -7,6 +7,8 @@ const config = {
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
   resendApiKey: process.env.RESEND_API_KEY ?? "",
   resendDeliveryEmail: process.env.RESEND_DELIVERY_EMAIL ?? "",
+  stripePublishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "",
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY ?? "",
 };
 
 export default config;
