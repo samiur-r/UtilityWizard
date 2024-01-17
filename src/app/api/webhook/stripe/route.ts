@@ -1,9 +1,9 @@
 import stripe from "stripe";
 import { NextResponse } from "next/server";
 import config from "@/config";
+import { createPayment } from "@/services/payment";
 
 export async function POST(req: Request) {
-  console.log("here");
   const body = await req.text();
   const sig = req.headers.get("stripe-signature");
 
@@ -27,12 +27,13 @@ export async function POST(req: Request) {
 
     const order = {
       stripeId: id,
+      userId: metadata?.buyerId || "",
       courseId: metadata?.id || "",
-      buyerId: metadata?.buyerId || "",
       amount: amount_total ? Number(amount_total / 100).toString() : "0",
+      status: "Completed",
     };
 
-    console.log(order);
+    await createPayment(order);
 
     return NextResponse.json({
       message: "Ok",

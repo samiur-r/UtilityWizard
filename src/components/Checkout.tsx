@@ -62,9 +62,6 @@ const Checkout: React.FC<CheckoutProps> = ({ course, user }) => {
 
       const data = await res.json();
 
-      console.log(data.url);
-      return;
-
       window.location = data.url;
     } catch (error) {
       setToastOpts({

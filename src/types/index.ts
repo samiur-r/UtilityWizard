@@ -10,3 +10,14 @@ export type OrderType = {
   price: number;
   buyerId: number;
 };
+
+export type PaymentType = {
+  id?: string;
+  stripeId: string;
+  userId: string;
+  courseId: string;
+  amount: string;
+  paymentDate?: Date;
+  paymentMethod?: string;
+  status: string;
+};
