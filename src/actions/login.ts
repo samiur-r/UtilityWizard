@@ -16,8 +16,14 @@ export const login = async (values: TLoginSchema) => {
   const { email, password } = validation.data;
 
   const existingUser = await getUserByEmail(email);
-  if (!existingUser || !existingUser.email || !existingUser.password)
+  if (!existingUser || !existingUser.email)
     return { error: "Email does not exist!" };
+
+  if (!existingUser.password)
+    return {
+      error:
+        "If you signed up using a provider, you'll need to log in with that provider's icon",
+    };
 
   if (!existingUser.emailVerified) {
     const verificationToken = await generateVerificationToken(email);
@@ -34,7 +40,7 @@ export const login = async (values: TLoginSchema) => {
       email,
       password,
       // redirectTo: DEFAULT_LOGIN_REDIRECT,
-      redirect: false
+      redirect: false,
     });
     return { redirect: true };
   } catch (error: any) {

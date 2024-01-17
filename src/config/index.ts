@@ -9,6 +9,7 @@ const config = {
   resendDeliveryEmail: process.env.RESEND_DELIVERY_EMAIL ?? "",
   stripePublishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "",
   stripeSecretKey: process.env.STRIPE_SECRET_KEY ?? "",
+  stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET ?? "",
 };
 
 export default config;

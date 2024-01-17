@@ -26,7 +26,7 @@ const Checkout: React.FC<CheckoutProps> = ({ course, user }) => {
     if (query.get("success"))
       setToastOpts({
         showToast: true,
-        isToastError: true,
+        isToastError: false,
         toastMessage: "Payment Successful",
       });
 
@@ -34,8 +34,7 @@ const Checkout: React.FC<CheckoutProps> = ({ course, user }) => {
       setToastOpts({
         showToast: true,
         isToastError: true,
-        toastMessage:
-          "Order canceled - checkout when you’re ready.",
+        toastMessage: "Order canceled - checkout when you’re ready.",
       });
   }, []);
 
@@ -62,6 +61,9 @@ const Checkout: React.FC<CheckoutProps> = ({ course, user }) => {
       if (!res.ok) throw new Error("");
 
       const data = await res.json();
+
+      console.log(data.url);
+      return;
 
       window.location = data.url;
     } catch (error) {
