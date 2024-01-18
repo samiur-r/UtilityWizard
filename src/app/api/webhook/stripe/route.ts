@@ -4,6 +4,7 @@ import config from "@/config";
 import { createPayment } from "@/services/payment";
 
 export async function POST(req: Request) {
+  console.log("webhook");
   const body = await req.text();
   const sig = req.headers.get("stripe-signature");
 
@@ -34,6 +35,8 @@ export async function POST(req: Request) {
     };
 
     await createPayment(order);
+
+    console.log("here");
 
     return NextResponse.json({
       message: "Ok",

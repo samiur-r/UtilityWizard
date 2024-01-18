@@ -4,7 +4,7 @@ import { PaymentType } from "@/types";
 const createPayment = async (paymentData: PaymentType) => {
   try {
     const payment = await db.payment.create({
-      data: paymentData,
+      data: paymentData as any,
     });
     return payment;
   } catch (error) {
