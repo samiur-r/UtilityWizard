@@ -32,6 +32,7 @@ export async function POST(req: Request) {
       courseId: metadata?.id || "",
       amount: amount_total ? Number(amount_total / 100).toString() : "0",
       status: "Completed",
+      paymentMethod: "Card",
     };
 
     await createPayment(order);
