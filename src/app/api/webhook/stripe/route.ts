@@ -4,10 +4,8 @@ import config from "@/config";
 import { createPayment } from "@/services/payment";
 
 export async function POST(req: Request) {
-  console.log("webhook");
   const body = await req.text();
   const sig = req.headers.get("stripe-signature");
-
   let event;
 
   try {
@@ -28,16 +26,17 @@ export async function POST(req: Request) {
 
     const order = {
       stripeId: id,
-      userId: metadata?.buyerId || "",
-      courseId: metadata?.id || "",
       amount: amount_total ? Number(amount_total / 100).toString() : "0",
       status: "Completed",
       paymentMethod: "Card",
+      user: {
+        connect: {
+          id: metadata?.buyerId ?? "",
+        },
+      },
     };
 
     await createPayment(order);
-
-    console.log("here");
 
     return NextResponse.json({
       message: "Ok",

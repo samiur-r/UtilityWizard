@@ -14,10 +14,13 @@ export type OrderType = {
 export type PaymentType = {
   id?: string;
   stripeId: string;
-  userId: string;
-  courseId: string;
+  userId?: string;
+  courseId?: string;
   amount: string;
   paymentDate?: Date;
   paymentMethod?: string;
   status: string;
+  user: {
+    connect: { id: string };
+  };
 };

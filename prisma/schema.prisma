@@ -67,7 +67,7 @@ model Course {
   quiz        Quiz?                  @relation(fields: [quizId], references: [id])
   enrollments UserCourseEnrollment[]
   contents    CourseContent[]
-  Payment     Payment[]
+  // Payment     Payment[]
 }
 
 model UserCourseEnrollment {
@@ -79,7 +79,7 @@ model UserCourseEnrollment {
   paymentStatus  String
 
   user    User    @relation(fields: [userId], references: [id])
-  payment Payment @relation(fields: [paymentId], references: [id])
+  // payment Payment @relation(fields: [paymentId], references: [id])
   course  Course  @relation(fields: [courseId], references: [id])
 }
 
@@ -96,15 +96,15 @@ model Payment {
   id            String   @id @default(cuid())
   stripeId      String
   userId        String
-  courseId      String
+  // courseId      String
   amount        String
   paymentDate   DateTime @default(now())
   paymentMethod String
   status        String
 
   user                 User                   @relation(fields: [userId], references: [id])
-  course               Course                 @relation(fields: [courseId], references: [id])
-  UserCourseEnrollment UserCourseEnrollment[]
+  // course               Course                 @relation(fields: [courseId], references: [id])
+  // UserCourseEnrollment UserCourseEnrollment[]
 }
 
 model VerificationToken {

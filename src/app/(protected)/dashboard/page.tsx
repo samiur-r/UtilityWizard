@@ -8,7 +8,7 @@ const course = {
 };
 
 const Dashboard = async () => {
-  const user = loggedInUser();
+  const user = await loggedInUser();
 
   return (
     <section className="container mx-auto p-5">

@@ -23,7 +23,7 @@ const Checkout: React.FC<CheckoutProps> = ({ course, user }) => {
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
-    if (query.get("success"))
+    if (query.get("session_id"))
       setToastOpts({
         showToast: true,
         isToastError: false,
