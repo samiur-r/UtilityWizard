@@ -4,14 +4,14 @@ Streamlining Your Utility Management with Simple, Efficient, and Accurate Billin
 
 ## Features
 
-- :rocket: Next.js: A React framework for building user interfaces with server-side rendering and static generation. Next.js
-- :label: TypeScript: Typed JavaScript at its best, providing scalable, maintainable codebases. TypeScript
-- :hammer_and_wrench: Prisma: Next-gen ORM for Node.js and TypeScript, perfect for database management. PRISMA
-- :key: Next-Auth: Authentication for Next.js projects, simplifying secure login flows. Next-Auth
-- :credit_card: Stripe: Online payment processing for internet businesses, integrated seamlessly. Stripe
-- :hook: React Hook Form: Efficient, flexible, and extensible forms with easy-to-use validation. React Hook Form
-- :balance_scale: Zod: TypeScript-first schema validation with static type inference. Zod
-- :rotating_light: ESLint: Code quality and coding style linter for JavaScript and TypeScript. ESLint
+- :rocket: Next.js 14: A React framework for building user interfaces with server-side rendering and static generation.
+- :label: TypeScript: Typed JavaScript at its best, providing scalable, maintainable codebases.
+- :hammer_and_wrench: Prisma: Next-gen ORM for Node.js and TypeScript, perfect for database management.
+- :key: Next-Auth 5: Authentication for Next.js projects, simplifying secure login flows.
+- :credit_card: Stripe: Online payment processing for internet businesses, integrated seamlessly.
+- :hook: React Hook Form: Efficient, flexible, and extensible forms with easy-to-use validation.
+- :balance_scale: Zod: TypeScript-first schema validation with static type inference.
+- :rotating_light: ESLint: Code quality and coding style linter for JavaScript and TypeScript.
 - :envelope_with_arrow: Resend: An innovative tool for managing and optimizing email delivery.
 
 ## Getting started
