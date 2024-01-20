@@ -32,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
       >
         <Link href="/" className="-m-1.5 p-1.5">
           <span className="sr-only">Your Company</span>
-          <Image src="/logo.png" width={50} height={50} alt="logo" />
+          <Image src="/logo.svg" width={50} height={50} alt="logo" />
         </Link>
         <div className="flex lg:hidden">
           <button
@@ -79,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
           <div className="flex items-center justify-between">
             <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <Image src="/logo.png" width={50} height={50} alt="logo" />
+              <Image src="/logo.svg" width={50} height={50} alt="logo" />
             </Link>
             <button
               type="button"

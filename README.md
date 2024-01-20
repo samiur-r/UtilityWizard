@@ -71,7 +71,7 @@ If you'd like to contribute, please fork the repository and make changes as you'
 If you have any questions or feedback, feel free to contact us:
 
 - Email: samiur.rahman.akif@gmail.com
-- GitHub Issues: https://github.com/samiur-r/UtilityWizard.git/issues
+- GitHub Issues: https://github.com/samiur-r/UtilityWizard/issues
 
 ### License
 
