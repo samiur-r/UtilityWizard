@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import Hero from "@/sections/Hero";
 import { loggedInUser } from "@/utils/user";
 
 export default async function Home() {
@@ -16,9 +17,7 @@ export default async function Home() {
   return (
     <section>
       <Header navigation={navigation} />
-      <div className="container mx-auto p-5">
-        <p className="text-2xl text-center">Landing page</p>
-      </div>
+      <Hero />
     </section>
   );
 }
