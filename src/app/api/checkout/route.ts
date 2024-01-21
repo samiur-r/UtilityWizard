@@ -6,17 +6,17 @@ import config from "@/config";
 export async function POST(req: Request) {
   const stripe = new Stripe(`${config.stripeSecretKey}`);
 
-  const { id, title, price, buyerId } = await req.json();
+  const { id, price, buyerId } = await req.json();
 
   try {
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
           price_data: {
-            currency: "usd",
+            currency: "bdt",
             unit_amount: Number(price) * 100,
             product_data: {
-              name: title,
+              name: id,
             },
           },
           quantity: 1,

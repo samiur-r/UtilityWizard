@@ -24,10 +24,6 @@ const Dashboard = async () => {
   else if (res.type === "user")
     return (
       <section className="container mx-auto p-5 mt-28">
-        {/* <p>Dashboard</p>
-        <div className="max-w-[200px] mt-5">
-          <Checkout course={course} user={user} />
-        </div> */}
         {res.data && res.data.length ? (
           <DataTableUser items={res?.data ?? []} user={user} />
         ) : (

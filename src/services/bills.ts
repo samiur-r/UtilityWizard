@@ -9,6 +9,25 @@ const getBillsByUserId = async (userId: string) => {
   }
 };
 
+export const updateBillPaymentStatus = async (
+  billId: string,
+  isPaid: boolean
+) => {
+  try {
+    const updatedBill = await db.bills.update({
+      where: {
+        id: billId,
+      },
+      data: {
+        isPaid: isPaid,
+      },
+    });
+    return updatedBill;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const createDummyBills = async (userId: string, meterId: string) => {
   const today = new Date();
   const currentYear = today.getFullYear();

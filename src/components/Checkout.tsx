@@ -93,7 +93,7 @@ const Checkout: React.FC<CheckoutProps> = ({ bill, user }) => {
           type="submit"
           className="flex w-full justify-center items-center gap-2 rounded-md bg- px-3 py-1.5 text-sm font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-secondary hover:text-white"
         >
-          {isLoading ? "Processing..." : `Pay $${bill.price}`}
+          {isLoading ? "Processing..." : `Pay ${bill.price}`}
         </button>
       </form>
     </>

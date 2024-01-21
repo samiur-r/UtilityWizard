@@ -2,6 +2,7 @@ import stripe from "stripe";
 import { NextResponse } from "next/server";
 import config from "@/config";
 import { createPayment } from "@/services/payment";
+import { updateBillPaymentStatus } from "@/services/bills";
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -34,9 +35,16 @@ export async function POST(req: Request) {
           id: metadata?.buyerId ?? "",
         },
       },
+      bill: {
+        connect: {
+          id: metadata?.orderId ?? "",
+        },
+      },
     };
 
     await createPayment(order);
+
+    await updateBillPaymentStatus(metadata?.orderId as string, true);
 
     return NextResponse.json({
       message: "Ok",
