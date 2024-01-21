@@ -1,6 +1,7 @@
 "use client";
 
 import { approveMeter } from "@/actions/approveMeter";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface ItemType {
@@ -11,11 +12,13 @@ interface ItemType {
 }
 
 export default function DataTableAdmin({ items }: { items: ItemType[] | any }) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const handleApproveMeter = async (userId: string) => {
     setIsLoading(true);
     try {
       await approveMeter(userId);
+      router.push("/dashboard");
     } catch (error) {
       console.log(error);
     }
