@@ -1,4 +1,6 @@
+import { getDashboardContent } from "@/actions/dashboard";
 import Checkout from "@/components/Checkout";
+import DataTable from "@/components/DataTable";
 import { loggedInUser } from "@/utils/user";
 
 const course = {
@@ -10,14 +12,24 @@ const course = {
 const Dashboard = async () => {
   const user = await loggedInUser();
 
-  return (
-    <section className="container mx-auto p-5">
-      <p>Dashboard</p>
-      <div className="max-w-[200px] mt-5">
-        <Checkout course={course} user={user} />
-      </div>
-    </section>
-  );
+  const res = await getDashboardContent();
+
+  if (res.type === "admin")
+    return (
+      <section className="container mx-auto p-5 mt-28">
+        <DataTable items={res?.data ?? []} />
+      </section>
+    );
+  else if (res.type === "user")
+    return (
+      <section>
+        <p>Dashboard</p>
+        <div className="max-w-[200px] mt-5">
+          <Checkout course={course} user={user} />
+        </div>
+      </section>
+    );
+  else return null;
 };
 
 export default Dashboard;

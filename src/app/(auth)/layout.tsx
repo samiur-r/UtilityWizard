@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <section>
       <Header navigation={navigation} />
-      {children}
+      <div className="mt-20">{children}</div>
     </section>
   );
 }

@@ -18,4 +18,22 @@ const getUserById = async (id: string) => {
   }
 };
 
-export { getUserByEmail, getUserById };
+const getUsers = async () => {
+  try {
+    const users = await db.user.findMany({
+      where: { role: "USER" },
+      select: {
+        meter: true,
+        id: true,
+        name: true,
+        email: true,
+        password: false,
+      },
+    });
+    return users;
+  } catch {
+    return null;
+  }
+};
+
+export { getUserByEmail, getUserById, getUsers };

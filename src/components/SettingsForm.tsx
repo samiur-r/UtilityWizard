@@ -99,7 +99,7 @@ const SettingsForm = ({ session }: { session: any }) => {
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-8">
+    <div className="flex min-h-full flex-1 flex-col justify-center px-8 mt-28">
       <Toast
         showToast={toastOpts.showToast}
         isToastError={toastOpts.isToastError}

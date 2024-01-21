@@ -13,6 +13,11 @@ enum UserRole {
   USER
 }
 
+enum ConnectionStatus {
+  PENDING
+  APPROVED
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -24,6 +29,8 @@ model User {
 
   accounts Account[]
   Payment  Payment[]
+  meter    Meter[]
+  bills    Bills[]
 }
 
 model Account {
@@ -49,10 +56,34 @@ model Payment {
   id            String   @id @default(cuid())
   stripeId      String
   userId        String
+  billId        String
   amount        String
   paymentDate   DateTime @default(now())
   paymentMethod String
   status        String
+
+  user User  @relation(fields: [userId], references: [id])
+  bill Bills @relation(fields: [billId], references: [id])
+}
+
+model Meter {
+  id     String           @id @default(cuid())
+  userId String
+  status ConnectionStatus
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Bills {
+  id         String    @id @default(cuid())
+  userId     String
+  month      Int
+  year       Int
+  units      Float
+  billAmount Float
+  dueDate    DateTime
+  isPaid     Boolean   @default(false)
+  payment    Payment[]
 
   user User @relation(fields: [userId], references: [id])
 }
