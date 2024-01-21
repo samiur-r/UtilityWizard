@@ -10,20 +10,20 @@ import Testimonials from "@/sections/home/Testimonials";
 import { loggedInUser } from "@/utils/user";
 
 export default async function Home() {
-  // const user = await loggedInUser();
-  // let navigation = [];
+  const user = await loggedInUser();
+  let navigation = [];
 
-  // if (user)
-  //   navigation = [
-  //     { id: 1, name: "Dashboard", href: "/dashboard" },
-  //     { id: 2, name: "Settings", href: "/settings" },
-  //     { id: 3, name: "Logout", href: "/logout" },
-  //   ];
-  // else navigation = [{ id: 1, name: "Get Started", href: "/login" }];
+  if (user)
+    navigation = [
+      { id: 1, name: "Dashboard", href: "/dashboard" },
+      { id: 2, name: "Settings", href: "/settings" },
+      { id: 3, name: "Logout", href: "/logout" },
+    ];
+  else navigation = [{ id: 1, name: "Get Started", href: "/login" }];
 
   return (
     <section>
-      <Header navigation={[]} />
+      <Header navigation={navigation} />
       <Hero />
       <Features />
       <Stats />
