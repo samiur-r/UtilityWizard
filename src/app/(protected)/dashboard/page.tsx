@@ -1,4 +1,5 @@
 import { getDashboardContent } from "@/actions/dashboard";
+import Banner from "@/components/Banner";
 import Checkout from "@/components/Checkout";
 import DataTable from "@/components/DataTable";
 import { loggedInUser } from "@/utils/user";
@@ -22,11 +23,12 @@ const Dashboard = async () => {
     );
   else if (res.type === "user")
     return (
-      <section>
-        <p>Dashboard</p>
+      <section className="container mx-auto p-5 mt-28">
+        {/* <p>Dashboard</p>
         <div className="max-w-[200px] mt-5">
           <Checkout course={course} user={user} />
-        </div>
+        </div> */}
+        <Banner />
       </section>
     );
   else return null;

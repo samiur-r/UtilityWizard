@@ -71,12 +71,14 @@ model Meter {
   userId String
   status ConnectionStatus
 
-  user User @relation(fields: [userId], references: [id])
+  user  User    @relation(fields: [userId], references: [id])
+  Bills Bills[]
 }
 
 model Bills {
   id         String    @id @default(cuid())
   userId     String
+  meterId    String
   month      Int
   year       Int
   units      Float
@@ -85,7 +87,8 @@ model Bills {
   isPaid     Boolean   @default(false)
   payment    Payment[]
 
-  user User @relation(fields: [userId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+  meter Meter @relation(fields: [meterId], references: [id])
 }
 
 model VerificationToken {

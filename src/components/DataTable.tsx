@@ -1,3 +1,8 @@
+"use client";
+
+import { approveMeter } from "@/actions/approveMeter";
+import { useState } from "react";
+
 interface ItemType {
   id: string | null;
   name: string | null;
@@ -5,7 +10,18 @@ interface ItemType {
   meter: Array<any>;
 }
 
-export default function DataTable({ items }: { items: ItemType[] | [] }) {
+export default function DataTable({ items }: { items: ItemType[] | any }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const handleApproveMeter = async (userId: string) => {
+    setIsLoading(true);
+    try {
+      await approveMeter(userId);
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  };
+
   return (
     <div className="bg-gray-900 py-10">
       <h2 className="px-4 text-base font-semibold leading-7 text-white sm:px-6 lg:px-8">
@@ -77,9 +93,12 @@ export default function DataTable({ items }: { items: ItemType[] | [] }) {
                 {item?.meter?.length ? (
                   "-"
                 ) : (
-                  <form>
-                    <button className="text-sm font-semibold leading-6 bg-primary text-gray-900 rounded-md p-2">
-                      Approve?
+                  <form onSubmit={() => handleApproveMeter(item.id as string)}>
+                    <button
+                      type="submit"
+                      className="text-sm font-semibold leading-6 bg-primary text-gray-900 rounded-md p-2"
+                    >
+                      {isLoading ? "Processing..." : "Approve?"}
                     </button>
                   </form>
                 )}
