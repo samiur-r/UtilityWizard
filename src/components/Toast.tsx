@@ -14,7 +14,7 @@ const Toast = ({ showToast, isToastError, toastMessage, reset }: any) => {
         setShow(false);
       }, 4000);
     }
-  }, [show]);
+  }, [reset, show]);
 
   if (!show) return null;
 

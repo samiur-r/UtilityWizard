@@ -3,6 +3,7 @@ import {
   NewspaperIcon,
   PhoneIcon,
 } from "@heroicons/react/24/outline";
+import Image from "next/image";
 
 const supportLinks = [
   {
@@ -34,10 +35,12 @@ const Support = () => {
       {/* Header */}
       <div className="relative bg-gray-800 pb-32">
         <div className="absolute inset-0">
-          <img
+          <Image
             className="h-full w-full object-cover"
             src="https://images.unsplash.com/photo-1525130413817-d45c1d127c42?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=60&&sat=-100"
             alt=""
+            width={1920}
+            height={1080}
           />
           <div
             className="absolute inset-0 bg-gray-800 mix-blend-multiply"

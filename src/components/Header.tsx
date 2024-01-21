@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
@@ -8,6 +8,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { logout } from "@/actions/logout";
+import { loggedInUser } from "@/utils/user";
 
 interface NavigationType {
   id: number;
@@ -23,6 +24,23 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
   const pathname = usePathname();
   const isActiveNavItem = (href: string) => pathname === href;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const hydrateNavItems = async () => {
+    const user = await loggedInUser();
+    let navigation = [];
+
+    if (user)
+      navigation = [
+        { id: 1, name: "Dashboard", href: "/dashboard" },
+        { id: 2, name: "Settings", href: "/settings" },
+        { id: 3, name: "Logout", href: "/logout" },
+      ];
+    else navigation = [{ id: 1, name: "Get Started", href: "/login" }];
+  };
+
+  useEffect(() => {
+    if (navigation.length < 1) hydrateNavItems();
+  }, [navigation]);
 
   return (
     <header className="bg-secondary w-full fixed z-50 top-0">
