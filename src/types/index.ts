@@ -1,6 +1,5 @@
-export type CourseType = {
-  id: number;
-  title: string;
+export type BillType = {
+  id: string;
   price: number;
 };
 

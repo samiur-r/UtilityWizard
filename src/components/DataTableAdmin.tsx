@@ -10,7 +10,7 @@ interface ItemType {
   meter: Array<any>;
 }
 
-export default function DataTable({ items }: { items: ItemType[] | any }) {
+export default function DataTableAdmin({ items }: { items: ItemType[] | any }) {
   const [isLoading, setIsLoading] = useState(false);
   const handleApproveMeter = async (userId: string) => {
     setIsLoading(true);

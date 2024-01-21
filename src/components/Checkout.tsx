@@ -3,17 +3,17 @@
 import React, { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import config from "@/config";
-import { CourseType } from "@/types";
+import { BillType } from "@/types";
 import Toast from "./Toast";
 
 loadStripe(config.stripePublishableKey);
 
 interface CheckoutProps {
-  course: CourseType;
+  bill: BillType;
   user: any;
 }
 
-const Checkout: React.FC<CheckoutProps> = ({ course, user }) => {
+const Checkout: React.FC<CheckoutProps> = ({ bill, user }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [toastOpts, setToastOpts] = useState({
     showToast: false,
@@ -43,9 +43,8 @@ const Checkout: React.FC<CheckoutProps> = ({ course, user }) => {
     setIsLoading(true);
 
     const order = {
-      id: course.id,
-      title: course.title,
-      price: course.price,
+      id: bill.id,
+      price: bill.price,
       buyerId: user.id,
     };
 
@@ -94,7 +93,7 @@ const Checkout: React.FC<CheckoutProps> = ({ course, user }) => {
           type="submit"
           className="flex w-full justify-center items-center gap-2 rounded-md bg- px-3 py-1.5 text-sm font-semibold leading-6 text-secondary shadow-sm bg-primary hover:bg-secondary hover:text-white"
         >
-          {isLoading ? "Processing..." : `Pay $${course.price}`}
+          {isLoading ? "Processing..." : `Pay $${bill.price}`}
         </button>
       </form>
     </>
