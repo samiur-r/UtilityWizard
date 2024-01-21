@@ -1,5 +1,6 @@
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -47,12 +48,7 @@ const Hero = () => {
       </div>
       <div className="container mx-auto px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-40">
         <div className="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
-          <Image
-            width={100}
-            height={100}
-            src="/logo.svg"
-            alt="Your Company"
-          />
+          <Image width={100} height={100} src="/logo.svg" alt="Your Company" className="hidden lg:block" />
           <div className="mt-24 sm:mt-32 lg:mt-16">
             <a href="#" className="inline-flex space-x-6">
               <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
@@ -68,20 +64,19 @@ const Hero = () => {
             </a>
           </div>
           <h1 className="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl">
-            Deploy to the cloud with confidence
+            DESCO BILLING MANAGEMENT
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-300">
-            Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-            lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-            fugiat aliqua.
+            Streamlining Your Utility Management with Simple, Efficient, and
+            Accurate Billing Solutions
           </p>
           <div className="mt-10 flex items-center gap-x-6">
-            <a
-              href="#"
+            <Link
+              href="/login"
               className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
             >
               Get started
-            </a>
+            </Link>
             <a href="#" className="text-sm font-semibold leading-6 text-white">
               Learn more <span aria-hidden="true">→</span>
             </a>

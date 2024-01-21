@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-transparent w-full fixed z-50 top-0">
+    <header className="bg-secondary w-full fixed z-50 top-0">
       <nav
         className="mx-auto flex container items-center justify-between p-6 lg:px-8"
         aria-label="Global"

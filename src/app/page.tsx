@@ -1,5 +1,12 @@
 import Header from "@/components/Header";
-import Hero from "@/sections/Hero";
+import Contact from "@/sections/home/Contact";
+import CTA from "@/sections/home/Cta";
+import Features from "@/sections/home/Features";
+import Footer from "@/sections/home/Footer";
+import Hero from "@/sections/home/Hero";
+import Stats from "@/sections/home/Stats";
+import Support from "@/sections/home/Support";
+import Testimonials from "@/sections/home/Testimonials";
 import { loggedInUser } from "@/utils/user";
 
 export default async function Home() {
@@ -18,6 +25,13 @@ export default async function Home() {
     <section>
       <Header navigation={navigation} />
       <Hero />
+      <Features />
+      <Stats />
+      <Support />
+      <Testimonials />
+      <Contact />
+      <CTA />
+      <Footer />
     </section>
   );
 }
